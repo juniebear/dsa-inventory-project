@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.Scanner;
 import java.util.Arrays;
+import java.util.ArrayList;
 
 /**
  * Scans the csv file
@@ -8,12 +9,12 @@ import java.util.Arrays;
  */
 public class scanRecords
 {
-   ItemRecord[] recordArray; 
+   ArrayList<ItemRecord> recordArray; 
     
    public scanRecords(){
        
     Scanner scan = null;
-    recordArray = new ItemRecord[10]; 
+    recordArray = new ArrayList<ItemRecord>(); 
     BufferedReader br = null;
     String InputLine = "";
     String salesfileLoc;
@@ -22,7 +23,7 @@ public class scanRecords
     int x = 0;
     int rowsInFile = 0;
     
-    salesfileLoc = " file name goes here";
+    salesfileLoc = "file name goes here";
     
    try
    {
@@ -30,23 +31,14 @@ public class scanRecords
        br = new BufferedReader(new FileReader(salesfileLoc));
        scan = new Scanner(br);
        
-       //need some way to find out how big to make the recordArray.  When  I try the while loop 
-       //that's commented out the object is not created later on.
-       
-       //while(br.readLine() != null){
-         // rowsInFile++;
-         //row++;
-        //}
-        
-        
-        
+           
        //while the CSV file has lines,
        while (scan.hasNextLine())
        //for(int i = 0; i < rowsInFile; i++)
        {
            //Read line in from file
            InputLine = scan.nextLine();
-          
+           
            //split the Inputline into an array at the commas
            String[] InArray = InputLine.split(splitBy);
            
@@ -55,19 +47,20 @@ public class scanRecords
            itemRecord.setSKU(InArray[0]); 
            itemRecord.setName(InArray[1]);
            itemRecord.setDescription(InArray[2]);
+           itemRecord.setInStock(InArray[3]);
+           
            //etc....copy the contents into each ItemRecord object.
           
           
-           //Then add to Array
-           recordArray[x] = itemRecord;
+           //Then add to List Array
+           recordArray.add(itemRecord);
            
           x++;
         }
         
-        for(int j = 0; j < recordArray.length; j++)
-        {
-        System.out.println(recordArray[j]);
-       }
+       
+        System.out.println(recordArray);
+       
     }
     catch (Exception e)
     {
@@ -75,7 +68,7 @@ public class scanRecords
     }
   }
   
-  public ItemRecord[] getRecords(){
+  public ArrayList<ItemRecord> getRecords(){
      return recordArray; 
     }
   
